@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("/img/space.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sixCapsFont {
+    font-family: 'Six Caps', sans-serif;
+}
+
+.active-link {
+    text-decoration: underline;
+}
+
+.not-active-link {
+    text-decoration: none;
+}
