@@ -1,11 +1,41 @@
 /** @jsxImportSource @emotion/react */
-
-import { IlluminatorSVG } from "@arwes/react-frames";
-import { FrameSVGCorners } from "@arwes/react-frames";
+import { useRef, useState, useEffect } from "react";
+import {
+  IlluminatorSVG,
+  FrameSVGCorners,
+  useFrameSVGAssemblingAnimation,
+} from "@arwes/react-frames";
 import { Animator } from "@arwes/react-animator";
 import { GridLines, Puffs } from "@arwes/react-bgs";
+import { motion } from "framer-motion";
+import { createBleepsManager } from "@arwes/bleeps";
+
+const bleepsManager = createBleepsManager({
+  bleeps: {
+    deploy: {
+      sources: [{ src: "/sound/deploy.mp3", type: "audio/mpeg" }],
+    },
+  },
+});
 
 const BaseLayout = ({ children }) => {
+  const svgRef = useRef(null);
+  const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
+
+  const playSound = () => {
+    bleepsManager.bleeps.deploy.play();
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
+  const handleRender = () => {
+    onRender();
+    setTimeout(playSound, 150);
+  };
+
   return (
     <div
       style={{
@@ -23,7 +53,7 @@ const BaseLayout = ({ children }) => {
           position: "absolute",
           width: "100%",
           height: "100%",
-          opacity: 0.6,
+          opacity: 0.7,
           top: 0,
           left: 0,
           zIndex: -1,
@@ -41,9 +71,19 @@ const BaseLayout = ({ children }) => {
           }}
           cornerLength={32}
           strokeWidth={3}
+          elementRef={svgRef}
+          onRender={handleRender}
         />
       </div>
-      <div style={{ padding: 20, position: "relative" }}>{children}</div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        transition={{ duration: 1 }}
+        style={{ padding: 20, position: "relative" }}
+      >
+        {children}
+      </motion.div>
     </div>
   );
 };
@@ -90,7 +130,7 @@ const Illuminator = ({ children }) => {
 const MainWrapper = ({ children }) => {
   return (
     <div>
-      <Animator duration={{ enter: 0.5, exit: 0.5, interval: 3 }}>
+      <Animator duration={{ enter: 1.5, exit: 0.5, interval: 3 }}>
         <GridLines
           lineColor="hsla(180, 100%, 75%, 0.2)"
           lineWidth={1}

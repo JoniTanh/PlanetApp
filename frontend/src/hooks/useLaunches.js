@@ -54,9 +54,9 @@ function useLaunches(bleepsManager) {
       const success = response.ok;
       if (success) {
         getLaunches();
-        bleepsManager.bleeps.success.play();
+        bleepsManager?.bleeps.success.play();
       } else {
-        bleepsManager.bleeps.warning.play();
+        bleepsManager?.bleeps.warning.play();
       }
     },
     [getLaunches, bleepsManager]

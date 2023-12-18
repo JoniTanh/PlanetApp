@@ -1,21 +1,51 @@
-import React from "react";
 import MainWrapper from "./UI/MainWrapper";
 import useLaunches from "../hooks/useLaunches";
+import { createThemeColor } from "@arwes/theme";
+import { createBleepsManager } from "@arwes/bleeps";
+
+const bleepsManager = createBleepsManager({
+  bleeps: {
+    abort: {
+      sources: [{ src: "/sound/abort.mp3", type: "audio/mpeg" }],
+    },
+  },
+});
+
+const themeColors = {
+  hueVariation: createThemeColor((i) => [i * 18, 50, 50, 1]),
+  lightnessVariation: createThemeColor((i) => [180, 50, i * 5, 1]),
+  saturationVariation: createThemeColor((i) => [180, i * 5, 50, 1]),
+};
 
 export default function Upcoming() {
   const { launches, abortLaunch } = useLaunches();
+  const textColor = themeColors.lightnessVariation(13);
+
+  const upcomingLaunches = launches.filter((launch) => launch.upcoming);
+
+  const playSound = () => {
+    bleepsManager.bleeps.abort.play();
+  };
+
+  const handleAbort = (flightNumber) => {
+    abortLaunch(flightNumber);
+    playSound();
+  };
 
   return (
     <MainWrapper>
-      <div>
+      <div style={{ fontSize: 18, color: textColor }}>
         <div>
-          Upcoming missions including both SpaceX launches and newly scheduled
-          rockets.
+          Upcoming missions including both Mission Kepler launches and newly
+          scheduled rockets.
         </div>
-        <div>Warning! Click on the 'x' aborts the mission.</div>
+        <div>
+          Warning! Click on the <span style={{ color: "red" }}>x</span> aborts
+          the mission.
+        </div>
         <table>
           <thead>
-            <tr>
+            <tr style={{ color: textColor }}>
               <th></th>
               <th>No.</th>
               <th>Date</th>
@@ -25,11 +55,11 @@ export default function Upcoming() {
             </tr>
           </thead>
           <tbody>
-            {launches.map((launch) => (
+            {upcomingLaunches.map((launch) => (
               <tr key={launch.flightNumber}>
                 <td
-                  onClick={() => abortLaunch(launch.flightNumber)}
-                  style={{ color: "red" }}
+                  onClick={() => handleAbort(launch.flightNumber)}
+                  style={{ color: "red", cursor: "pointer" }}
                 >
                   x
                 </td>
@@ -37,7 +67,7 @@ export default function Upcoming() {
                 <td>{launch.launchDate}</td>
                 <td>{launch.mission}</td>
                 <td>{launch.rocket}</td>
-                <td>{launch.destination}</td>
+                <td>{launch.target}</td>
               </tr>
             ))}
           </tbody>
