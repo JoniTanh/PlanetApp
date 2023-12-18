@@ -3,34 +3,47 @@
 import { IlluminatorSVG } from "@arwes/react-frames";
 import { FrameSVGCorners } from "@arwes/react-frames";
 import { Animator } from "@arwes/react-animator";
-import { GridLines } from "@arwes/react-bgs";
+import { GridLines, Puffs } from "@arwes/react-bgs";
 
-const Content = ({ children }) => {
+const BaseLayout = ({ children }) => {
   return (
     <div
       style={{
         position: "relative",
-        width: 1000,
-        height: 600,
+        maxWidth: 1000,
+        width: "100%",
+        height: "auto",
+        minHeight: "600px",
         zIndex: 1,
         margin: "20px auto",
-        opacity: 0.6,
       }}
     >
-      <FrameSVGCorners
-        css={{
-          "[data-name=bg]": {
-            color: "hsl(180, 75%, 10%)",
-            border: "1px solid red",
-          },
-          "[data-name=line]": {
-            color: "hsl(180, 75%, 50%)",
-          },
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          opacity: 0.6,
+          top: 0,
+          left: 0,
+          zIndex: -1,
         }}
-        cornerLength={32}
-        strokeWidth={3}
-      />
-      {children}
+      >
+        <FrameSVGCorners
+          css={{
+            "[data-name=bg]": {
+              color: "hsl(180, 75%, 10%)",
+              border: "1px solid red",
+            },
+            "[data-name=line]": {
+              color: "hsl(180, 75%, 50%)",
+            },
+          }}
+          cornerLength={32}
+          strokeWidth={3}
+        />
+      </div>
+      <div style={{ padding: 20, position: "relative" }}>{children}</div>
     </div>
   );
 };
@@ -41,8 +54,10 @@ const Illuminator = ({ children }) => {
       style={{
         position: "relative",
         margin: "20px auto",
-        width: "1000px",
-        height: "600px",
+        maxWidth: "1000px",
+        width: "100%",
+        minHeight: "600px",
+        height: "auto",
       }}
     >
       <svg
@@ -66,16 +81,16 @@ const Illuminator = ({ children }) => {
           height: "100%",
         }}
       >
-        <Content children={children} />
+        <BaseLayout children={children} />
       </div>
     </div>
   );
 };
 
-const BaseContent = ({ children }) => {
+const MainWrapper = ({ children }) => {
   return (
     <div>
-      <Animator duration={{ enter: 0.5, exit: 0.5 }}>
+      <Animator duration={{ enter: 0.5, exit: 0.5, interval: 3 }}>
         <GridLines
           lineColor="hsla(180, 100%, 75%, 0.2)"
           lineWidth={1}
@@ -83,10 +98,18 @@ const BaseContent = ({ children }) => {
           horizontalLineDash={[4]}
           verticalLineDash={[4]}
         />
+        <Puffs
+          color="hsla(120, 100%, 75%, 0.5)"
+          quantity={1000}
+          padding={20}
+          xOffset={[50, -100]}
+          yOffset={[50, -100]}
+          radiusOffset={[4, 0]}
+        />
         <Illuminator>{children}</Illuminator>
       </Animator>
     </div>
   );
 };
 
-export default BaseContent;
+export default MainWrapper;
