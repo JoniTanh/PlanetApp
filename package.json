@@ -8,8 +8,10 @@
     "install-client": "cd frontend && npm install",
     "install": "npm run install-server && npm run install-client",
     "server": "npm run dev --prefix backend",
+    "server-cluster": "npm run cluster --prefix backend",
     "client": "npm run start --prefix frontend",
     "dev": "concurrently 'npm:server' 'npm:client'",
+    "dev-cluster": "concurrently 'npm:server-cluster' 'npm:client'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

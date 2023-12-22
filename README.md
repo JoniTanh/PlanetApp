@@ -1,8 +1,19 @@
 ## About
 
+Jest, Supertest, pm2
+
 https://arwes.dev/
 https://www.digitalocean.com/community/tutorials/react-react-emotion
 https://emotion.sh/docs/introduction
+
+### Backup Setup
+
+.env
+
+```
+PORT=
+MONGODB_URI=
+```
 
 ### React + Vite
 
