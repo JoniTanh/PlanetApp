@@ -2,10 +2,7 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 //const morgan = require("morgan");
-
-const planetsRouter = require("./routes/planets");
-const launchesRouter = require("./routes/launches");
-
+const api = require("./routes/api");
 const app = express();
 
 app.use(
@@ -18,7 +15,6 @@ app.use(
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "dist")));
 
-app.use("/planets", planetsRouter);
-app.use("/launches", launchesRouter);
+app.use("/v1", api);
 
 module.exports = app;

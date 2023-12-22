@@ -83,7 +83,7 @@ const NavBar = () => {
               easing="outSine"
               fixed
             >
-              Mission Kepler
+              ExoLife Explorer
             </Text>
           </Animator>
         </span>
