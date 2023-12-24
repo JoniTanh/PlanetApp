@@ -8,7 +8,7 @@ jobs:
   test:
     env:
       CI: true
-      MONGO_URL: mongodb://localhost/planet
+      MONGODB_URI: mongodb://localhost/planet
     strategy:
       matrix:
         node-version: [16.x, 20.x]
