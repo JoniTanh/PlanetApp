@@ -3,15 +3,16 @@ const config = require("./config");
 
 const MONGODB_URI = config.MONGODB_URI;
 
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connection ready!");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error(err);
+});
+
 async function mongoConnect() {
-  mongoose
-    .connect(MONGODB_URI)
-    .then(() => {
-      console.log("Connected to MongoDB");
-    })
-    .catch((error) => {
-      console.log(`Error connecting to MongoDB: ${error.message}`);
-    });
+  await mongoose.connect(MONGODB_URI);
 }
 
 module.exports = {
