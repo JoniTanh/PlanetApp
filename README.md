@@ -1,11 +1,11 @@
 ## About
 
-Jest, Supertest, pm2, SpaceX REST Api
+Jest, Supertest, pm2, SpaceX REST Api, CI / CD
 
-https://arwes.dev/
-https://www.digitalocean.com/community/tutorials/react-react-emotion
-https://emotion.sh/docs/introduction
-https://github.com/r-spacex/SpaceX-API
+- https://arwes.dev/
+- https://www.digitalocean.com/community/tutorials/react-react-emotion
+- https://emotion.sh/docs/introduction
+- https://github.com/r-spacex/SpaceX-API
 
 ### Backup Setup
 
